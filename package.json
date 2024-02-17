@@ -1,11 +1,11 @@
 {
-  "name": "Retro-game",
+  "name": "retro-game",
   "version": "2.0.0",
   "description": "",
   "homepage": "https://github.com/RuslanManoilo/Retro-game",
   "scripts": {
     "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /parcel-project-template/"
+    "build": "parcel build src/*.html --public-url /Retro-game/"
   },
   "repository": {
     "type": "git",
