@@ -1,2 +1,0 @@
-function _classCallCheck(t,s){if(!(t instanceof s))throw new TypeError("Cannot call a class as a function")}var Player=function t(){"use strict";_classCallCheck(this,t)},Projectile=function t(){"use strict";_classCallCheck(this,t)},Enemy=function t(){"use strict";_classCallCheck(this,t)},Game=function t(){"use strict";_classCallCheck(this,t)};window.addEventListener("load",(function(){var t=document.getElementById("canvas1");t.getContext("2d");t.width=600,t.height=800}));
-//# sourceMappingURL=index.2dacfb8a.js.map
