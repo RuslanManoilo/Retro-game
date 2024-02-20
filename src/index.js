@@ -10,9 +10,15 @@ class Player {
 
   draw(context) {
     context.fillRect(this.x, this.y, this.width, this.height);
-  };
+  }
   update() {
-    this.x += this.speed;
+    //horizontal movement
+    if (this.game.keys.indexOf('ArrowLeft') > -1) this.x -= this.speed;
+    if (this.game.keys.indexOf('ArrowRight') > -1) this.x += this.speed;
+
+    //horizontal boundaries
+    if (this.x < 0) this.x = 0;
+    else if (this.x > this.game.width - this.width) this.x = this.game.width - this.width;
   }
 }
 
@@ -25,7 +31,18 @@ class Game {
     this.canvas = canvas;
     this.width = this.canvas.width;
     this.height = this.canvas.height;
+    this.keys = [];
     this.player = new Player(this);
+
+    //Event listener
+    window.addEventListener('keydown', evt => {
+      if (this.keys.indexOf(evt.key) === -1) this.keys.push(evt.key);
+    });
+
+    window.addEventListener('keyup', evt => {
+      const idx = this.keys.indexOf(evt.key);
+      if (idx > -1) this.keys.splice(idx, 1);
+    });
   }
 
   render(context) {
@@ -46,7 +63,7 @@ window.addEventListener('load', function () {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.render(ctx);
     requestAnimationFrame(animate);
-  };
+  }
 
   animate();
 });
