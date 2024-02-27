@@ -22,7 +22,7 @@ class Player {
     else if (this.x > this.game.width - this.width * 0.5)
       this.x = this.game.width - this.width * 0.5;
   }
-  
+
   shoot() {
     const projectile = this.game.getProjectile();
     if (projectile) projectile.start(this.x + this.width * 0.5, this.y);
@@ -72,6 +72,7 @@ class Enemy {
     this.y = 0;
     this.positionX = positionX;
     this.positionY = positionY;
+    this.markedForDeletion = false;
   }
 
   draw(context) {
@@ -81,6 +82,14 @@ class Enemy {
   update(x, y) {
     this.x = x + this.positionX;
     this.y = y + this.positionY;
+
+    // check collisions enemies - projectiles
+    this.game.projectilesPool.forEach(projectile => {
+      if (!projectile.free && this.game.checkCollision(this, projectile)) {
+        this.markedForDeletion = true;
+        projectile.reset();
+      }
+    });
   }
 }
 
@@ -113,6 +122,8 @@ class Wave {
       enemy.update(this.x, this.y);
       enemy.draw(context);
     });
+
+    this.enemies = this.enemies.filter(enemy => !enemy.markedForDeletion);
   }
 
   create() {
@@ -139,7 +150,7 @@ class Game {
     this.numberOfProjectiles = 10;
     this.createProjectiles();
 
-    this.columns = 3;
+    this.columns = 5;
     this.rows = 3;
     this.enemySize = 60;
 
@@ -184,6 +195,16 @@ class Game {
         return this.projectilesPool[i];
       }
     }
+  }
+
+  // collision detection between 2 rectangles
+  checkCollision(a, b) {
+    return (
+      a.x < b.x + b.width &&
+      a.x + a.width > b.x &&
+      a.y < b.y + b.height &&
+      a.y + a.height > b.y
+    );
   }
 }
 
