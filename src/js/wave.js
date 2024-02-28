@@ -10,6 +10,7 @@ export class Wave {
     this.speedX = 3;
     this.speedY = 0;
     this.enemies = [];
+    this.nextWaveTrigger = false;
     this.create();
   }
 
