@@ -13,6 +13,7 @@ export class Game {
     this.projectilesPool = [];
     this.numberOfProjectiles = 10;
     this.createProjectiles();
+    this.fired = false;
 
     this.columns = 2;
     this.rows = 2;
@@ -27,11 +28,16 @@ export class Game {
 
     //Event listener
     window.addEventListener('keydown', evt => {
+      if (evt.key === '1' && !this.fired) this.player.shoot();
+      this.fired = true;
+
       if (this.keys.indexOf(evt.key) === -1) this.keys.push(evt.key);
-      if (evt.key === '1') this.player.shoot();
+      if (evt.key === 'r' && this.gameOver) this.restart();
     });
 
     window.addEventListener('keyup', evt => {
+      this.fired = false;
+
       const idx = this.keys.indexOf(evt.key);
       if (idx > -1) this.keys.splice(idx, 1);
     });
@@ -126,5 +132,19 @@ export class Game {
     }
 
     this.waves.push(new Wave(this));
+  }
+
+  restart() {
+    this.player.restart();
+
+    this.columns = 2;
+    this.rows = 2;
+
+    this.waves = [];
+    this.waves.push(new Wave(this));
+    this.waveCount = 1;
+
+    this.score = 0;
+    this.gameOver = false;
   }
 }
