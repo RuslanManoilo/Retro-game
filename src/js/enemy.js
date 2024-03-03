@@ -11,8 +11,18 @@ export class Enemy {
   }
 
   draw(context) {
-    context.strokeRect(this.x, this.y, this.width, this.height);
-    context.drawImage(this.image, this.x, this.y);
+    // context.strokeRect(this.x, this.y, this.width, this.height);
+    context.drawImage(
+      this.image,
+      this.frameX * this.width,
+      this.frameY * this.height,
+      this.width,
+      this.height,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
   }
 
   update(x, y) {
@@ -22,12 +32,18 @@ export class Enemy {
     // check collisions enemies - projectiles
     this.game.projectilesPool.forEach(projectile => {
       if (!projectile.free && this.game.checkCollision(this, projectile)) {
-        this.markedForDeletion = true;
+        this.hit(1);
         projectile.reset();
-
-        if (!this.game.gameOver) this.game.score++;
       }
     });
+
+    if (this.lives < 1) {
+      this.frameX++;
+      if (this.frameX > this.maxFrame) {
+        this.markedForDeletion = true;
+        if (!this.game.gameOver) this.game.score += this.maxLives;
+      }
+    }
 
     // check collisions enemies - player
     if (this.game.checkCollision(this, this.game.player)) {
@@ -44,5 +60,9 @@ export class Enemy {
       this.game.gameOver = true;
       this.markedForDeletion = true;
     }
+  }
+
+  hit(damage) {
+    this.lives -= damage;
   }
 }

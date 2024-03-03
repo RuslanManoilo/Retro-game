@@ -17,7 +17,7 @@ export class Game {
 
     this.columns = 2;
     this.rows = 2;
-    this.enemySize = 60;
+    this.enemySize = 80;
 
     this.waves = [];
     this.waves.push(new Wave(this));
