@@ -14,7 +14,7 @@ window.addEventListener('load', function () {
   let lastTime = 0;
 
   function animate(timeStamp) {
-    deltaTime = timeStamp - lastTime;
+    const deltaTime = timeStamp - lastTime;
     lastTime = timeStamp;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
