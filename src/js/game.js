@@ -23,6 +23,10 @@ export class Game {
     this.waves.push(new Wave(this));
     this.waveCount = 1;
 
+    this.spriteUpdate = false;
+    this.spriteTimer = 0;
+    this.spriteInterval = 120;
+
     this.score = 0;
     this.gameOver = false;
 
@@ -43,7 +47,16 @@ export class Game {
     });
   }
 
-  render(context) {
+  render(context, deltaTime) {
+    // sprite timing
+    if (this.spriteTimer > this.spriteInterval) {
+      this.spriteUpdate = true;
+      this.spriteTimer = 0;
+    } else {
+      this.spriteUpdate = false;
+      this.spriteTimer += deltaTime;
+    };
+
     this.drawStatusText(context);
     this.player.draw(context);
     this.player.update();
