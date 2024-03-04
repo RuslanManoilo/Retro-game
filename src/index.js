@@ -7,7 +7,6 @@ window.addEventListener('load', function () {
   canvas.height = 800;
   ctx.fillStyle = 'white';
   ctx.strokeStyle = 'white';
-  ctx.lineWidth = 5;
   ctx.font = '30px impact';
 
   const game = new Game(canvas);
